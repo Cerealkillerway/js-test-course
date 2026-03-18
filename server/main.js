@@ -1,4 +1,4 @@
-import express, { response } from "express";
+import express from "express";
 import { MongoClient } from "mongodb";
 
 const app = express();
