@@ -9,6 +9,8 @@ const dbName = "js-test-course";
 
 app.use(express.json());
 
+console.log("process started correctly");
+
 const readAnimalsFromFriends = (friendDocuments) => {
   const animals = friendDocuments.map((friendDocument) => {
     return friendDocument.animals || undefined;
