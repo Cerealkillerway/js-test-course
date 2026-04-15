@@ -9,6 +9,14 @@ const dbName = "js-test-course";
 
 app.use(express.json());
 
+const readAnimalsFromFriends = (friendDocuments) => {
+  const animals = friendDocuments.map((friendDocument) => {
+    return friendDocument.animals || undefined;
+  });
+
+  return animals;
+};
+
 const main = async () => {
   await mongoClient.connect();
   console.log(`succesfully connected to DB on ${mongoUrl}`);
@@ -21,6 +29,30 @@ const main = async () => {
 
   app.get("/friends", async (request, response) => {
     const friendDocuments = await friendsCollection.find({}).toArray();
+
+    response.send(friendDocuments);
+  });
+
+  app.get("/animals", async (request, response) => {
+    const friendDocuments = await friendsCollection.find({}).toArray();
+
+    const animals = readAnimalsFromFriends(friendDocuments);
+    response.send(animals);
+  });
+
+  app.get("/friends/:friendName/:animalId", async (request, response) => {
+    /*
+      {
+        friendName: ...
+      }
+    */
+
+    //const friendName = request.params.friendName
+    const { friendName, animalId } = request.params;
+
+    const friendDocuments = await friendsCollection
+      .find({ firstName: friendName })
+      .toArray();
 
     response.send(friendDocuments);
   });
